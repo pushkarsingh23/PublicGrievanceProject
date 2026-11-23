@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Public Grievance Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header>
+    <h2>Public Grievance Portal</h2>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/track">Track Complaint</a>
+        <a href="/admin">Admin</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>Public Grievance Portal</h1>
+    <p>A smarter way to organize public complaints.</p>
+</section>
+
+<main class="container">
+    <section class="complaint-card">
+        <h2>Submit Your Complaint</h2>
+
+        {% with messages = get_flashed_messages() %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endwith %}
+
+        <form method="POST">
+            <label>Your Name</label>
+            <input type="text" name="name" required>
+
+            <label>Email</label>
+            <input type="email" name="email">
+
+            <label>Complaint Description</label>
+            <textarea name="complaint" rows="5"
+                placeholder="Describe your complaint..."
+                required></textarea>
+
+            <button type="submit">Submit Complaint</button>
+        </form>
+
+        {% if submitted %}
+        <div class="result">
+            <h3>Complaint Submitted Successfully!</h3>
+            <p>Category: {{ category }}</p>
+            <p>Tracking ID: <strong>{{ tracking_id }}</strong></p>
+            <p>Save your Tracking ID to check your complaint status.</p>
+        </div>
+        {% endif %}
+    </section>
+</main>
+
+<footer>
+    Public Grievance Categorizer | Python Project
+</footer>
+
+</body>
+</html>
