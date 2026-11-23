@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Complaint</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header>
+    <h2>Public Grievance Portal</h2>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/admin">Admin</a>
+    </nav>
+</header>
+
+<main class="container">
+
+    <section class="complaint-card">
+
+        <h2>Track Your Complaint</h2>
+        <p>Enter your tracking ID to check complaint status.</p>
+
+        {% with messages = get_flashed_messages() %}
+            {% for message in messages %}
+                <p class="error">{{ message }}</p>
+            {% endfor %}
+        {% endwith %}
+
+        <form method="POST">
+
+            <label>Complaint Tracking ID</label>
+
+            <input
+                type="text"
+                name="tracking_id"
+                placeholder="Enter your tracking ID"
+                required
+            >
+
+            <button type="submit">Track Complaint</button>
+
+        </form>
+
+        {% if complaint %}
+
+        <div class="result">
+
+            <h3>Complaint Details</h3>
+
+            <p><strong>Name:</strong> {{ complaint['name'] }}</p>
+
+            <p><strong>Tracking ID:</strong>
+                {{ complaint['tracking_id'] }}
+            </p>
+
+            <p><strong>Category:</strong>
+                {{ complaint['category'] }}
+            </p>
+
+            <p><strong>Status:</strong>
+                {{ complaint['status'] }}
+            </p>
+
+            <p><strong>Date:</strong>
+                {{ complaint['created_at'] }}
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </section>
+
+</main>
+
+<footer>
+    Public Grievance Categorizer
+</footer>
+
+</body>
+</html>
