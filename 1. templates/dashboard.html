@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<header>
+    <h2>Public Grievance Admin Dashboard</h2>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/track">Track Complaint</a>
+        <a href="/logout">Logout</a>
+    </nav>
+</header>
+
+<main class="container">
+
+    <section class="complaint-card">
+
+        <h2>Dashboard Overview</h2>
+
+        <div class="categories">
+            <div>Total Complaints: {{ total }}</div>
+            <div>Pending: {{ pending }}</div>
+            <div>In Progress: {{ in_progress }}</div>
+            <div>Resolved: {{ resolved }}</div>
+        </div>
+
+    </section>
+
+    <section class="complaint-card">
+
+        <h2>All Submitted Complaints</h2>
+
+        {% with messages = get_flashed_messages() %}
+            {% for message in messages %}
+                <p class="result">{{ message }}</p>
+            {% endfor %}
+        {% endwith %}
+
+        {% if complaints %}
+
+            {% for item in complaints %}
+
+                <div class="complaint-box">
+
+                    <h3>Complaint #{{ item['id'] }}</h3>
+
+                    <p>
+                        <strong>Tracking ID:</strong>
+                        {{ item['tracking_id'] }}
+                    </p>
+
+                    <p>
+                        <strong>Name:</strong>
+                        {{ item['name'] }}
+                    </p>
+
+                    <p>
+                        <strong>Email:</strong>
+                        {{ item['email'] or 'Not provided' }}
+                    </p>
+
+                    <p>
+                        <strong>Complaint:</strong>
+                        {{ item['complaint'] }}
+                    </p>
+
+                    <p>
+                        <strong>Category:</strong>
+                        {{ item['category'] }}
+                    </p>
+
+                    <p>
+                        <strong>Date:</strong>
+                        {{ item['created_at'] }}
+                    </p>
+
+                    <p>
+                        <strong>Current Status:</strong>
+                        {{ item['status'] }}
+                    </p>
+
+                    <form
+                        method="POST"
+                        action="{{ url_for('update_status',
+                        complaint_id=item['id']) }}"
+                    >
+
+                        <label>Update Complaint Status</label>
+
+                        <select name="status">
+
+                            <option value="Pending"
+                            {% if item['status'] == 'Pending' %}selected{% endif %}>
+                                Pending
+                            </option>
+
+                            <option value="In Progress"
+                            {% if item['status'] == 'In Progress' %}selected{% endif %}>
+                                In Progress
+                            </option>
+
+                            <option value="Resolved"
+                            {% if item['status'] == 'Resolved' %}selected{% endif %}>
+                                Resolved
+                            </option>
+
+                        </select>
+
+                        <button type="submit">
+                            Update Status
+                        </button>
+
+                    </form>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p>No complaints submitted yet.</p>
+
+        {% endif %}
+
+    </section>
+
+</main>
+
+<footer>
+    Public Grievance Categorizer | Admin Panel
+</footer>
+
+</body>
+</html>
