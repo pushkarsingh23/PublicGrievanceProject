@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<header>
+    <h2>Public Grievance Portal</h2>
+    <nav>
+        <a href="/">Home</a>
+    </nav>
+</header>
+
+<main class="container">
+
+    <section class="complaint-card">
+
+        <h2>Admin Login</h2>
+        <p>Login to manage public complaints.</p>
+
+        {% with messages = get_flashed_messages() %}
+            {% for message in messages %}
+                <p class="error">{{ message }}</p>
+            {% endfor %}
+        {% endwith %}
+
+        <form method="POST">
+
+            <label>Admin Password</label>
+
+            <input
+                type="password"
+                name="password"
+                placeholder="Enter admin password"
+                required
+            >
+
+            <button type="submit">Login</button>
+
+        </form>
+
+    </section>
+
+</main>
+
+<footer>
+    Public Grievance Portal | Admin Panel
+</footer>
+
+</body>
+</html>
